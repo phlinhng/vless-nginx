@@ -262,7 +262,7 @@ vps_tools() {
 
 rm_vless() {
   ${sudoCmd} ${systemPackage} install curl -y -qq
-  curl -sL https://raw.githubusercontent.com/phlinhng/vless-nginx/${branch}/rm_vless | bash
+  curl -sL https://raw.githubusercontent.com/phlinhng/vless-nginx/${branch}/rm_vless.sh | bash
   exit 0
 }
 

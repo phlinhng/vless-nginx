@@ -4,4 +4,4 @@
 # 使用说明
 + 初次使用
 ```
-bash <(curl -sL )
+bash <(curl -sL https://raw.githubusercontent.com/phlinhng/vless-nginx/master/install.sh) && bash ~/vless.sh
