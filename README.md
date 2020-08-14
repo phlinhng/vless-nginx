@@ -4,7 +4,7 @@
 # 使用说明
 + 初次使用
 ```sh
-bash <(curl -sL https://raw.githubusercontent.com/phlinhng/vless-nginx/master/install.sh) && bash ~/vless.sh
+bash <(curl -sL https://raw.githubusercontent.com/phlinhng/vless-nginx/master/start.sh) && bash ~/vless.sh
 ```
 + 再次呼叫
 ```sh
