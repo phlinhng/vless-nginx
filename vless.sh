@@ -171,10 +171,13 @@ install_vless() {
     fi
   done
 
-  # install dependncies
+  # install requirements
+  ${sudoCmd} ${systemPackage} update
+  ${sudoCmd} ${systemPackage} install software-properties-common -y -q
   ${sudoCmd} add-apt-repository ppa:ondrej/nginx-mainline -y
   ${sudoCmd} ${systemPackage} update
   ${sudoCmd} ${systemPackage} install wget coreutils nginx-extras unzip -y -q
+  ${sudoCmd} ${systemPackage} install nginx-extras -y -q -f
 
   # install v2ray-core
   get_v2ray
