@@ -221,16 +221,19 @@ EOF
   --key-file /etc/ssl/v2ray/key.pem --fullchain-file /etc/ssl/v2ray/fullchain.pem \
   --reloadcmd "systemctl restart v2ray"
 
+  ${sudoCmd} chmod 666 /etc/ssl/v2ray/fullchain.pem
+  ${sudoCmd} chmod 666 /etc/ssl/v2ray/key.pem
+
   # configurate nginx for fallback
   set_nginx "${V2_DOMAIN}"
 
   colorEcho ${BLUE} "Activating services"
+  ${sudoCmd} systemctl daemon-reload
+  ${sudoCmd} systemctl reset-failed
   ${sudoCmd} systemctl enable v2ray
   ${sudoCmd} systemctl restart v2ray 2>/dev/null ## restart v2ray to enable new config
   ${sudoCmd} systemctl enable nginx
   ${sudoCmd} systemctl restart nginx
-  ${sudoCmd} systemctl daemon-reload
-  ${sudoCmd} systemctl reset-failed
 
   colorEcho ${GREEN} "安装 VLESS+NGINX 成功!"
 
