@@ -177,7 +177,7 @@ install_vless() {
   ${sudoCmd} add-apt-repository ppa:ondrej/nginx-mainline -y
   ${sudoCmd} ${systemPackage} update
   ${sudoCmd} ${systemPackage} install wget coreutils nginx-extras unzip -y -q
-  ${sudoCmd} ${systemPackage} install nginx-extras -y -q -f
+  ${sudoCmd} ${systemPackage} install nginx -y -q -f
 
   # install v2ray-core
   get_v2ray
