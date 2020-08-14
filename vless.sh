@@ -281,7 +281,6 @@ show_menu() {
 menu() {
   colorEcho ${YELLOW} "VLESS automated script v${VERSION}"
   colorEcho ${YELLOW} "author: phlinhng"
-  echo ""
 
   #check_status
 
