@@ -51,5 +51,3 @@ ${sudoCmd} ${systemPackage} install wget coreutils nginx-extras unzip -y -q
 ${sudoCmd} timedatectl set-ntp true
 
 ${sudoCmd} wget -q -N https://raw.githubusercontent.com/phlinhng/vless-nginx/${branch}/vless.sh -O ~/vless.sh
-
-bash ~/vless.sh
