@@ -3,5 +3,14 @@
 
 # 使用说明
 + 初次使用
-```
+```sh
 bash <(curl -sL https://raw.githubusercontent.com/phlinhng/vless-nginx/master/install.sh) && bash ~/vless.sh
+```
++ 再次呼叫
+```sh
+bash ~/vless.sh
+```
+
+# 注意事项
+1. 不支持 CDN
+2. 若阁下先前使用过其他的脚本或方式安装过任何形式的代理，请先卸载先前的安装再使用本脚本
