@@ -75,8 +75,6 @@ ${sudoCmd} crontab -l | grep -v 'acme.sh' | ${sudoCmd} crontab -
 ${sudoCmd} ${systemPackage} remove nginx -y
 ${sudoCmd} ${systemPackage} autoremove -y
 
-
-
 ${sudoCmd} rm -f ~/vless.sh
 
-colorEcho ${BLUE} "卸载完成"
+colorEcho ${GREEN} "卸载完成"
