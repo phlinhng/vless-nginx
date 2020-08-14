@@ -46,31 +46,36 @@ colorEcho() {
   echo -e "\033[${1}${@:2}\033[0m" 1>& 2
 }
 
-colorEcho ${BLUE} "Shutting down v2ray service."
+colorEcho ${BLUE} "Shutting down v2ray service"
 ${sudoCmd} systemctl stop v2ray
 ${sudoCmd} systemctl disable caddy
 ${sudoCmd} rm -f /etc/systemd/system/v2ray.service
 ${sudoCmd} rm -f /etc/systemd/system/v2ray.service
 ${sudoCmd} rm -f /etc/systemd/system/v2ray@.service
 ${sudoCmd} rm -f /etc/systemd/system/v2ray@.service
-colorEcho ${BLUE} "Removing v2ray files."
+colorEcho ${BLUE} "Removing v2ray files"
 ${sudoCmd} rm -rf /etc/v2ray
 ${sudoCmd} rm -rf /usr/local/bin/v2ray
 ${sudoCmd} rm -rf /usr/local/bin/v2ctl
 ${sudoCmd} rm -rf /usr/local/etc/v2ray
 ${sudoCmd} rm -rf /usr/local/lib/v2ray
 ${sudoCmd} rm -rf /var/log/v2ray
-
 colorEcho ${BLUE} "Removing v2ray crontab"
 ${sudoCmd} crontab -l | grep -v 'v2ray/geoip.dat' | ${sudoCmd} crontab -
 ${sudoCmd} crontab -l | grep -v 'v2ray/geosite.dat' | ${sudoCmd} crontab -
-colorEcho ${GREEN} "Removed v2ray successfully."
+colorEcho ${GREEN} "Removed v2ray successfully"
 
-colorEcho ${BLUE} "Removing dummy site."
+colorEcho ${BLUE} "Removing dummy site"
 ${sudoCmd} rm -rf /var/www/html
+
+colorEcho ${BLUE} "Removing acme.sh"
+${sudoCmd} rm -rf /root/.acme.sh
+${sudoCmd} crontab -l | grep -v 'acme.sh' | ${sudoCmd} crontab -
 
 ${sudoCmd} ${systemPackage} remove nginx -y
 ${sudoCmd} ${systemPackage} autoremove -y
+
+
 
 ${sudoCmd} rm -f ~/vless.sh
 
