@@ -44,7 +44,7 @@ fi
 
 # install requirements
 ${sudoCmd} ${systemPackage} add-apt-repository ppa:ondrej/nginx-mainline
-${sudoCmd} ${systemPackage} apt-get update -q
+${sudoCmd} ${systemPackage} update
 ${sudoCmd} ${systemPackage} install wget coreutils nginx-extras unzip -y -q
 
 # set time syncronise service
