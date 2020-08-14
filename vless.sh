@@ -293,7 +293,7 @@ menu() {
     case "${opt}" in
       "0") install_vless && continue_prompt ;;
       "1") get_v2ray && continue_prompt ;;
-      "2") get_cert && continue_prompt
+      "2") get_cert && continue_prompt ;;
       "3") vps_tools ;;
       "4") rm_vless ;;
       *) break ;;
