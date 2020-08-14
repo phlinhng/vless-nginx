@@ -140,18 +140,18 @@ build_web() {
 
 set_nginx() {
   ${sudoCmd} cat > /etc/nginx/sites-enabled/vless_fallback.conf <<-EOF
-  server {
-      listen 127.0.0.1:80;
-      server_name $1;
-      root /var/www/html;
-      index index.php index.html index.htm;
-  }
-  server {
-      listen 0.0.0.0:80;
-      listen [::]:80;
-      server_name $1;
-      return 301 https://\$host\$request_uri;
-  }
+server {
+    listen 127.0.0.1:80;
+    server_name $1;
+    root /var/www/html;
+    index index.php index.html index.htm;
+}
+server {
+    listen 0.0.0.0:80;
+    listen [::]:80;
+    server_name $1;
+    return 301 https://\$host\$request_uri;
+}
 EOF
 }
 
@@ -196,12 +196,12 @@ install_vless() {
 
   # temporary config for issuing certs
   ${sudoCmd} cat > /etc/nginx/sites-enabled/vless_fallback.conf <<-EOF
-  server {
-      listen 80;
-      server_name ${V2_DOMAIN};
-      root /var/www/html;
-      index index.php index.html index.htm;
-  }
+server {
+    listen 80;
+    server_name ${V2_DOMAIN};
+    root /var/www/html;
+    index index.php index.html index.htm;
+}
 EOF
 
   ${sudoCmd} systemctl restart nginx
