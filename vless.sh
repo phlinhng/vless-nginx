@@ -149,7 +149,7 @@ set_nginx() {
   server {
       listen 0.0.0.0:80;
       listen [::]:80;
-      server_name _;
+      server_name $1;
       return 301 https://\$host\$request_uri;
   }
 EOF
@@ -266,6 +266,14 @@ get_cert() {
   ${sudoCmd} /root/.acme.sh/acme.sh --install-cert --ecc -d "${V2_DOMAIN}" \
   --key-file /etc/ssl/v2ray/key.pem --fullchain-file /etc/ssl/v2ray/fullchain.pem \
   --reloadcmd "systemctl restart v2ray"
+
+  ${sudoCmd} chmod 666 /etc/ssl/v2ray/fullchain.pem
+  ${sudoCmd} chmod 666 /etc/ssl/v2ray/key.pem
+
+  ${sudoCmd} systemctl daemon-reload
+  ${sudoCmd} systemctl reset-failed
+  ${sudoCmd} systemctl enable v2ray
+  ${sudoCmd} systemctl restart v2ray 2>/dev/null ## restart v2ray to enable new config
 
   colorEcho ${GREEN} "更新证书成功!"
 }
