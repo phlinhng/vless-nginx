@@ -264,10 +264,14 @@ get_cert() {
   --key-file /etc/ssl/v2ray/key.pem --fullchain-file /etc/ssl/v2ray/fullchain.pem \
   --reloadcmd "chmod 666 /etc/ssl/v2ray/fullchain.pem; chmod 666 /etc/ssl/v2ray/key.pem; systemctl restart v2ray"
 
+  set_nginx "${V2_DOMAIN}"
+
   ${sudoCmd} systemctl daemon-reload
   ${sudoCmd} systemctl reset-failed
   ${sudoCmd} systemctl enable v2ray
   ${sudoCmd} systemctl restart v2ray 2>/dev/null ## restart v2ray to enable new config
+  ${sudoCmd} systemctl enable nginx
+  ${sudoCmd} systemctl restart nginx
 
   colorEcho ${GREEN} "更新证书成功!"
 }
