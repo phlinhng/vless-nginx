@@ -139,7 +139,7 @@ build_web() {
 }
 
 set_nginx() {
-  cat > /etc/nginx/sites-enabled/vless_fallback.conf <<-EOF
+  ${sudoCmd} cat > /etc/nginx/sites-enabled/vless_fallback.conf <<-EOF
   server {
       listen 127.0.0.1:80;
       server_name $1;
@@ -188,6 +188,24 @@ install_vless() {
   (crontab -l 2>/dev/null; echo "0 7 * * * wget -q https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/geoip.dat -O /usr/local/lib/v2ray/geoip.dat >/dev/null >/dev/null") | ${sudoCmd} crontab -
   (crontab -l 2>/dev/null; echo "0 7 * * * wget -q https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/geosite.dat -O /usr/local/lib/v2ray/geosite.dat >/dev/null >/dev/null") | ${sudoCmd} crontab -
 
+  ${sudoCmd} mkdir -p /etc/ssl/v2ray
+
+  # building dummy website
+  colorEcho ${BLUE} "Building dummy web site"
+  build_web
+
+  # temporary config for issuing certs
+  ${sudoCmd} cat > /etc/nginx/sites-enabled/vless_fallback.conf <<-EOF
+  server {
+      listen 80;
+      server_name ${V2_DOMAIN};
+      root /var/www/html;
+      index index.php index.html index.htm;
+  }
+EOF
+
+  ${sudoCmd} systemctl restart nginx
+
   # get acme.sh
   colorEcho ${BLUE} "Installing acme.sh"
   curl -fsSL https://get.acme.sh | ${sudoCmd} sh
@@ -203,13 +221,8 @@ install_vless() {
   --key-file /etc/ssl/v2ray/key.pem --fullchain-file /etc/ssl/v2ray/fullchain.pem \
   --reloadcmd "systemctl restart v2ray"
 
-  # building dummy website
-  colorEcho ${BLUE} "Building dummy web site"
-  build_web
-
   # configurate nginx for fallback
-  colorEcho ${BLUE} "Installing certificate"
-  set_nginx
+  set_nginx "${V2_DOMAIN}"
 
   colorEcho ${BLUE} "Activating services"
   ${sudoCmd} systemctl enable v2ray
@@ -223,7 +236,7 @@ install_vless() {
 
   echo ""
   echo "${V2_DOMAIN}:443"
-  echo "${uuid_vless} (aid: 0)" && echo ""
+  echo "${uuid_vless}" && echo ""
 }
 
 get_cert() {
