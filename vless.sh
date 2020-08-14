@@ -57,7 +57,7 @@ elif cat /proc/version | grep -Eqi "centos|red hat|redhat"; then
   #exit 0
 fi
 
-VERSION="0.1"
+VERSION="0.2"
 
 continue_prompt() {
   read -rp "继续其他操作 (yes/no)? " choice
