@@ -227,7 +227,7 @@ EOF
   colorEcho ${BLUE} "Installing certificate"
   ${sudoCmd} /root/.acme.sh/acme.sh --install-cert --ecc -d "${V2_DOMAIN}" \
   --key-file /etc/ssl/v2ray/key.pem --fullchain-file /etc/ssl/v2ray/fullchain.pem \
-  --reloadcmd "chmod 666 /etc/ssl/v2ray/fullchain.pem; chmod 666 /etc/ssl/v2ray/key.pem; systemctl restart v2ray"
+  --reloadcmd "chmod 644 /etc/ssl/v2ray/fullchain.pem; chmod 644 /etc/ssl/v2ray/key.pem; systemctl daemon-reload; systemctl restart v2ray"
 
   # configurate nginx for fallback
   set_nginx "${V2_DOMAIN}"
@@ -270,7 +270,7 @@ get_cert() {
   colorEcho ${BLUE} "Installing certificate"
   ${sudoCmd} /root/.acme.sh/acme.sh --install-cert --ecc -d "${V2_DOMAIN}" \
   --key-file /etc/ssl/v2ray/key.pem --fullchain-file /etc/ssl/v2ray/fullchain.pem \
-  --reloadcmd "chmod 666 /etc/ssl/v2ray/fullchain.pem; chmod 666 /etc/ssl/v2ray/key.pem; systemctl restart v2ray"
+  --reloadcmd "chmod 644 /etc/ssl/v2ray/fullchain.pem; chmod 644 /etc/ssl/v2ray/key.pem; systemctl daemon-reload; systemctl restart v2ray"
 
   set_nginx "${V2_DOMAIN}"
 
