@@ -139,7 +139,8 @@ build_web() {
 }
 
 set_nginx() {
-  ${sudoCmd} cat > /etc/nginx/sites-enabled/vless_fallback.conf <<-EOF
+  ${sudoCmd} rm /etc/nginx/sites-enabled/vless_fallback.conf
+  ${sudoCmd} cat > /etc/nginx/sites-available/vless_fallback.conf <<-EOF
 server {
     listen 127.0.0.1:80;
     server_name $1;
@@ -153,6 +154,9 @@ server {
     return 301 https://\$host\$request_uri;
 }
 EOF
+  ${sudoCmd} cd /etc/nginx/sites-enabled
+  ${sudoCmd} ln -s /etc/nginx/sites-available/vless_fallback.conf .
+  ${sudoCmd} cd ~
 }
 
 install_vless() {
