@@ -82,8 +82,28 @@ get_v2ray() {
   curl -sL https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh | ${sudoCmd} bash
 }
 
+build_v2ray_service() {
+  ${sudoCmd} cat > "/etc/systemd/system/v2ray.service" <<-EOF
+[Unit]
+Description=V2Ray Service
+After=network.target nss-lookup.target
+[Service]
+User=nobody
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+NoNewPrivileges=true
+Environment=V2RAY_LOCATION_ASSET=/usr/local/share/v2ray/
+ExecStart=/usr/local/bin/v2ray -confdir /usr/local/etc/v2ray
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target
+EOF
+  ${sudoCmd} systemctl daemon-reload
+  ${sudoCmd} systemctl enable v2ray
+}
+
 set_vless() {
-  ${sudoCmd} cat > /usr/local/etc/v2ray/05_inbounds.json <<-EOF
+  ${sudoCmd} cat > "/usr/local/etc/v2ray/05_inbounds.json" <<-EOF
 {
   "inbounds": [
     {
@@ -190,6 +210,9 @@ install_vless() {
 
   # install v2ray-core
   get_v2ray
+  
+  # edit v2ray.service for confdir
+  build_v2ray_service
 
   # configurate vless
   colorEcho ${BLUE} "Setting VLESS"
