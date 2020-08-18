@@ -57,7 +57,7 @@ elif cat /proc/version | grep -Eqi "centos|red hat|redhat"; then
   #exit 0
 fi
 
-VERSION="0.3"
+VERSION="0.4"
 
 continue_prompt() {
   read -rp "继续其他操作 (yes/no)? " choice
@@ -138,6 +138,18 @@ build_web() {
   fi
 }
 
+set_redirect() {
+  ${sudoCmd} cat > /etc/nginx/sites-available/default <<-EOF
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        server_name _;
+
+        return 301 https://$host$request_uri;
+}
+EOF
+}
+
 set_nginx() {
   ${sudoCmd} rm /etc/nginx/sites-enabled/vless_fallback.conf
   ${sudoCmd} cat > /etc/nginx/sites-available/vless_fallback.conf <<-EOF
@@ -146,12 +158,6 @@ server {
     server_name $1;
     root /var/www/html;
     index index.php index.html index.htm;
-}
-server {
-    listen 0.0.0.0:80;
-    listen [::]:80;
-    server_name $1;
-    return 301 https://\$host\$request_uri;
 }
 EOF
   ${sudoCmd} cd /etc/nginx/sites-enabled
@@ -234,6 +240,7 @@ EOF
   --reloadcmd "chmod 644 /etc/ssl/v2ray/fullchain.pem; chmod 644 /etc/ssl/v2ray/key.pem; systemctl daemon-reload; systemctl restart v2ray"
 
   # configurate nginx for fallback
+  set_redirect
   set_nginx "${V2_DOMAIN}"
 
   colorEcho ${BLUE} "Activating services"
