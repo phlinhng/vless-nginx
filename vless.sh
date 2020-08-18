@@ -141,11 +141,10 @@ build_web() {
 set_redirect() {
   ${sudoCmd} cat > /etc/nginx/sites-available/default <<-EOF
 server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-        server_name _;
-
-        return 301 https://$host$request_uri;
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name _;
+    return 301 https://$host$request_uri;
 }
 EOF
 }
@@ -154,7 +153,7 @@ set_nginx() {
   ${sudoCmd} rm /etc/nginx/sites-enabled/vless_fallback.conf
   ${sudoCmd} cat > /etc/nginx/sites-available/vless_fallback.conf <<-EOF
 server {
-    listen 127.0.0.1:80;
+listen 127.0.0.1:80;
     server_name $1;
     root /var/www/html;
     index index.php index.html index.htm;
