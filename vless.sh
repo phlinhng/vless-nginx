@@ -116,9 +116,11 @@ set_vless() {
           }
         ],
         "decryption": "none",
-        "fallback": {
-          "port": 80
-        }
+        "fallbacks": [
+          {
+            "dest": 80
+          }
+        ]
       },
       "streamSettings": {
         "network": "tcp",
