@@ -1,5 +1,7 @@
 # VLESS NGINX 脚本
-本脚本为示范性脚本，仅供体验 VLESS 使用。待 VLESS 稳定后会合并至 [v2ray-tcp-tls-web](https://github.com/phlinhng/v2ray-tcp-tls-web) 中。
+~~本脚本为示范性脚本，仅供体验 VLESS 使用。~~ <br>
+新脚本已推出，请使用 [@phlinhng/v2ray-tcp-tls-web](https://github.com/phlinhng/v2ray-tcp-tls-web/wiki) 部署 VLESS。<br>
+本脚本将不再维护<br>
 
 # 使用说明
 + 初次使用
